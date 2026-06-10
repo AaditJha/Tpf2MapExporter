@@ -39,7 +39,6 @@ local roadColours = {
 	["one-way"] = { 150, 150, 150 }, -- grey (town/entrance one-ways)
 	default = { 150, 150, 150 },
 }
--- test
 -- Road stroke width is driven by each street type's real carriageway width
 -- (streetWidth, in metres) so the line thickness reflects how wide the road is.
 -- Colour conveys the road category; width conveys its size.
