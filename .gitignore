@@ -1,0 +1,5 @@
+vectormapexporter_1/PROJECT_NOTES.md
+
+# Exported maps (default output folder). Keep the folder, ignore its contents.
+vectormapexporter_1/map_exports/*
+!vectormapexporter_1/map_exports/.gitkeep
