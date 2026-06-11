@@ -352,16 +352,17 @@ local function emitTerrain(f, t, bx, by, yield)
 	b64 = nil
 	trace("terrain: relief image embedded (" .. N .. "x" .. N .. ")")
 
-	-- ---- coastline: the sea-level (elevation 0) contour, stroked in the water
-	-- colour. Built with marching squares over the same fine height grid used for
-	-- the relief raster, so the coast follows the terrain precisely. ----
+	-- ---- coastline: the water-level contour, stroked in the water colour.
+	-- Built with marching squares over the same fine height grid used for the
+	-- relief raster and at the SAME threshold (waterLevel), so the coastline
+	-- traces the exact boundary of the rasterised water fill. ----
 	if TERRAIN_COASTLINE then
 		local function interpC(x1, y1, h1, x2, y2, h2, L)
 			local d = h2 - h1
 			local tt = d == 0 and 0.5 or (L - h1) / d
 			return x1 + tt * (x2 - x1), y1 + tt * (y2 - y1)
 		end
-		local L = 0
+		local L = waterLevel
 		f:write('<g inkscape:groupmode="layer" inkscape:label="coastline" id="coastline" ' ..
 			'fill="none" stroke="' .. util.rgb(COASTLINE_COLOUR) .. '" stroke-width="' ..
 			util.num(t.sw(COASTLINE_WIDTH)) .. '" stroke-linecap="round" stroke-linejoin="round">\n')
@@ -447,6 +448,8 @@ local function emitTerrain(f, t, bx, by, yield)
 	f:write('<g inkscape:label="contours" id="contours" fill="none" stroke="#6b5630" stroke-opacity="0.45" stroke-width="1.2">\n')
 	for level = 1, CONTOUR_LEVELS do
 		local L = minH + level * interval
+		-- skip levels at or below the water surface; we don't draw seabed contours
+		if L >= waterLevel then
 		f:write('<path d="')
 		for i = 0, cn - 1 do
 			local x0 = -bx + i * csx
@@ -490,6 +493,7 @@ local function emitTerrain(f, t, bx, by, yield)
 			end
 		end
 		f:write('"/>\n')
+		end
 	end
 	f:write('</g>\n')
 	trace("terrain: done (relief image + " .. CONTOUR_LEVELS .. " contour levels)")

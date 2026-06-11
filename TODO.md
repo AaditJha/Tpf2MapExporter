@@ -16,5 +16,5 @@
       for the station/depot/town/industry markers and the toolbar button
 - [ ] Publish the mod to the Steam Workshop
 - [ ] Create a map viewer utility (standalone tool to browse/inspect the exported SVG maps)
-- [ ] Auto-detect the ocean/water level (it is constant per map) instead of assuming
+- [x] Auto-detect the ocean/water level (it is constant per map) instead of assuming
       sea level = 0, and drive the coastline + below-water shading from it
