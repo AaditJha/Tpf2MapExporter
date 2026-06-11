@@ -201,6 +201,32 @@ local function heightAt(x, y)
 	return api.engine.terrain.getBaseHeightAt(scratchV2)
 end
 
+-- Detect the water surface height from the engine's WATER_MESH components.
+-- Each mesh contour is the polygon outline where water meets land (the
+-- shoreline), so terrain height sampled at a contour vertex equals the water
+-- surface height there. We take the median across all shoreline vertices to
+-- shrug off the few that read slightly high. Returns 0 (sea level) if no water
+-- mesh is present.
+local function computeWaterLevel()
+	local heights = {}
+	local ok = pcall(function()
+		api.engine.forEachEntityWithComponent(function(e)
+			local m = api.engine.getComponent(e, api.type.ComponentType.WATER_MESH)
+			if not m or not m.contours then return end
+			for ci = 1, #m.contours do
+				local verts = m.contours[ci].vertices
+				for vi = 1, #verts do
+					local p = verts[vi]
+					heights[#heights + 1] = heightAt(p.x, p.y)
+				end
+			end
+		end, api.type.ComponentType.WATER_MESH)
+	end)
+	if not ok or #heights == 0 then return 0 end
+	table.sort(heights)
+	return heights[math.floor(#heights / 2) + 1]
+end
+
 ----------------------------------------------------------------------
 -- Street style lookup.
 -- Returns the street's category (categories[1], used for colour) and its
@@ -266,9 +292,15 @@ local function emitTerrain(f, t, bx, by, yield)
 	if maxH <= minH then return end
 	trace("terrain: sampled, minH=" .. util.num(minH) .. " maxH=" .. util.num(maxH))
 
-	-- Sea level (0) is the bottom of the land ramp so coastal terrain reads
-	-- green; fall back to the data minimum if the whole map is below 0.
-	local landMin = math.max(0, minH)
+	-- Water surface height detected from the engine's WATER_MESH shoreline.
+	-- Used as the land/water threshold so the below-water tint and the bottom
+	-- of the land colour ramp follow the actual water level, not a hardcoded 0.
+	local waterLevel = computeWaterLevel()
+	trace("terrain: water level = " .. util.num(waterLevel))
+
+	-- The water level is the bottom of the land ramp so coastal terrain reads
+	-- green; fall back to the data minimum if the whole map is below it.
+	local landMin = math.max(waterLevel, minH)
 	if maxH <= landMin then landMin = minH end
 	local landSpan = maxH - landMin
 	if landSpan <= 0 then landSpan = 1 end
@@ -289,12 +321,11 @@ local function emitTerrain(f, t, bx, by, yield)
 		local hTR = h[ci + 1][cj + 1]
 		local hTL = h[ci][cj + 1]
 		local avg = (hBL + hBR + hTR + hTL) * 0.25
-		local base
-		if avg < 0 then
-			base = { 150, 180, 175 } -- below sea level, pale
-		else
-			base = hypso((avg - landMin) / landSpan)
+		if avg < waterLevel then
+			-- below water: flat fill, no hillshade so the seabed relief is hidden
+			return 150, 180, 175
 		end
+		local base = hypso((avg - landMin) / landSpan)
 		local dzdx = ((hBR + hTR) - (hBL + hTL)) * invX
 		local dzdy = ((hTL + hTR) - (hBL + hBR)) * invY
 		local shade = hillshade(dzdx, dzdy, zf)
