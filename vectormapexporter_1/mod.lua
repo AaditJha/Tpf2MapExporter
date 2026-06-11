@@ -65,24 +65,21 @@ function data()
 			severityRemove = 'NONE',
 			name = _('Cartograph - Vector Map Exporter'),
 			description = _([[
-Exports a high quality, self-contained vector (SVG) map of your current game.
+Export a beautiful, high quality map of your game as a single SVG file.
 
-Unlike an in-game minimap, this writes a single resolution independent SVG file
-to disk that you can open in Inkscape / Illustrator / a browser. Every feature
-is on its own toggleable layer:
- - terrain as a shaded-relief raster with optional contour lines and a coastline
- - roads, coloured by class and sized by carriageway width
- - rail tracks in a crosstie style
- - bridges and tunnels distinguished on both roads and rail
- - stations and stops (rail / road / water / air, passenger vs. cargo)
- - depots, towns (with name labels) and industries (with name labels)
- - an always-on legend listing only the feature types actually drawn
+Open it in any browser, Inkscape or Illustrator and zoom in as far as you like — it stays razor sharp at any size, perfect for printing or sharing.
 
-Network curves are exported as true bezier paths using the in-game track
-tangents, so they stay smooth at any zoom. The export resolution adapts to the
-map size, so maps export at their true aspect ratio.
+What's on the map:
+ - Shaded terrain with contour lines and coastlines
+ - Roads, coloured by type
+ - Railways, bridges and tunnels
+ - Stations and stops (passenger and cargo)
+ - Depots, towns and industries, with names
+ - A legend that lists everything shown
 
-Open the exporter from the button in the top toolbar, choose your layers and export.
+Each feature sits on its own layer, so you can show or hide whatever you want.
+
+How to use it: click the button in the top toolbar, pick the layers you want, and hit Export.
 ]]),
 			tags = { 'Script Mod', 'Map' },
 			authors = {
