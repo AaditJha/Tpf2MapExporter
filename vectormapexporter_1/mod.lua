@@ -80,6 +80,8 @@ What's on the map:
 Each feature sits on its own layer, so you can show or hide whatever you want.
 
 How to use it: click the button in the top toolbar, pick the layers you want, and hit Export.
+
+Source code: https://github.com/AaditJha/Tpf2MapExporter
 ]]),
 			tags = { 'Script Mod', 'Map' },
 			authors = {
