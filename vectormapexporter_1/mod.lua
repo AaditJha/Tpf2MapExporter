@@ -84,7 +84,7 @@ map size, so maps export at their true aspect ratio.
 
 Open the exporter from the button in the top toolbar, choose your layers and export.
 ]]),
-			tags = { 'Script_mod', 'Minimap', 'Map' },
+			tags = { 'Script Mod', 'Map' },
 			authors = {
 				{ name = 'aadit', role = 'CREATOR' }
 			}
