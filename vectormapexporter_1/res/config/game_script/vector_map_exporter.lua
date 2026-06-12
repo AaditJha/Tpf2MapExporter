@@ -513,16 +513,19 @@ local function emitNetworks(f, t, doRoads, doRail, yield, legend)
 	local hasBridge, hasTunnel = false, false
 	local ops = 0
 
-	-- node position cache (BASE_NODE.position is the authoritative world pos)
+	-- node position cache (BASE_NODE.position is the authoritative world pos).
+	-- NOTE: nc.position is sol2 userdata aliasing engine memory; it must be copied
+	-- into a plain Lua table immediately, or later getComponent calls reuse the
+	-- buffer and the cached reference yields garbage coords (causes stray streaks).
 	local nodePos = {}
 	local function getNodePos(node)
 		local p = nodePos[node]
-		if not p then
+		if p == nil then
 			local nc = api.engine.getComponent(node, api.type.ComponentType.BASE_NODE)
-			p = nc and nc.position
+			p = (nc and nc.position) and { x = nc.position.x, y = nc.position.y, z = nc.position.z } or false
 			nodePos[node] = p
 		end
-		return p
+		return p or nil
 	end
 
 	api.engine.forEachEntityWithComponent(function(entity)
@@ -771,7 +774,8 @@ local function emitStations(f, t, yield, legend)
 		local p = nodePos[node]
 		if p == nil then
 			local nc = api.engine.getComponent(node, api.type.ComponentType.BASE_NODE)
-			p = nc and nc.position or false
+			-- copy out of the aliasing userdata immediately (see networks note)
+			p = (nc and nc.position) and { x = nc.position.x, y = nc.position.y, z = nc.position.z } or false
 			nodePos[node] = p
 		end
 		return p or nil

@@ -1,5 +1,8 @@
 vectormapexporter_1/PROJECT_NOTES.md
 
+# Dev-only network streak diagnostic tool.
+vectormapexporter_1/res/scripts/vector_map_diag.lua
+
 # Exported maps (default output folder). Keep the folder, ignore its contents.
 vectormapexporter_1/map_exports/*
 !vectormapexporter_1/map_exports/.gitkeep
