@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>My Website</title>
+
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""/>
+        <style>
+            /* Leaflet Legend CSS */
+            .leaflet-legend{background-color:#fff}.leaflet-legend-title{margin:3px;padding-bottom:5px}.leaflet-legend-column{float:left;margin-left:10px}.leaflet-legend-item{display:table;margin:2px 0}.leaflet-legend-item span{vertical-align:middle;display:table-cell;word-break:keep-all;white-space:nowrap;background-color:transparent;text-align:left}.leaflet-legend-item-clickable{cursor:pointer}.leaflet-legend-item-inactive span{color:#ccc}.leaflet-legend-item-inactive i canvas,.leaflet-legend-item-inactive i img{opacity:.3}.leaflet-legend-item i{display:inline-block;padding:0 3px 0 4px;position:relative;vertical-align:middle}.leaflet-legend-toggle{background-image:url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNTk5MDE0Mjk2NTEwIiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjE3Nzk4IiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ij48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwvc3R5bGU+PC9kZWZzPjxwYXRoIGQ9Ik05MzQuNCA0NzguNzJINzM3LjI4Yy0xNS44NzItMTEwLjA4LTExMS4xMDQtMTk0LjU2LTIyNS4yOC0xOTQuNTZTMzAyLjU5MiAzNjguNjQgMjg2LjcyIDQ3OC43Mkg4OS42djY2LjU2SDI4Ni43MmMxNS44NzIgMTEwLjA4IDExMS4xMDQgMTk0LjU2IDIyNS4yOCAxOTQuNTZzMjA5LjQwOC04NC40OCAyMjUuMjgtMTk0LjU2aDE5Ny4xMnYtNjYuNTZ6IiBmaWxsPSIjNzA3MDcwIiBwLWlkPSIxNzc5OSI+PC9wYXRoPjwvc3ZnPg==");background-repeat:no-repeat;background-position:50% 50%;box-shadow:none;border-radius:4px}.leaflet-legend-contents{display:none}.leaflet-legend-expanded .leaflet-legend-contents{display:block;padding:6px 15px 6px 6px}.leaflet-legend-contents img{position:absolute}.leaflet-legend-contents:after{content:"";display:block;clear:both}
+
+           /* Reset CSS */
+            *,::after,::before{box-sizing:border-box}*{margin:0;padding:0;min-width:0}[hidden]{display:none!important}@media (prefers-reduced-motion:no-preference){html{interpolate-size:allow-keywords}}html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scrollbar-gutter:stable;overscroll-behavior:contain}body{min-height:100vh;min-height:100svh;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-smooth:always;text-rendering:optimizeLegibility}
+
+            #map {
+                height: 100vh;
+                width: 100%;
+            }
+        </style>
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+        
+        <script type="text/javascript">
+            // Leaflet Legend JS
+            //!function(t,e){"function"==typeof define&&define.amd?define(["leaflet"],t):"object"==typeof exports&&(module.exports=t(require("leaflet"))),void 0!==e&&e.L&&t(L)}(function(t){class e{constructor(t,e,i){this._control=t,this._container=e,this._legend=i,this._width=this._control.options.symbolWidth,this._height=this._control.options.symbolHeight}}class i extends e{constructor(t,e,i){super(t,e,i),this._canvas=this._buildCanvas(),this._drawSymbol&&this._drawSymbol(),this._style()}_buildCanvas(){var e=t.DomUtil.create("canvas",null,this._container);return e.height=this._control.options.symbolHeight,e.width=this._control.options.symbolWidth,e}_drawSymbol(){}_style(){var t=this._ctx=this._canvas.getContext("2d");(this._legend.fill||this._legend.fillColor)&&(t.globalAlpha=this._legend.fillOpacity||1,t.fillStyle=this._legend.fillColor||this._legend.color,t.fill(this._legend.fillRule||"evenodd")),(this._legend.stroke||this._legend.color)&&(this._legend.dashArray&&t.setLineDash(this._legend.dashArray||[]),t.globalAlpha=this._legend.opacity||1,t.lineWidth=this._legend.weight||2,t.strokeStyle=this._legend.color||"#3388ff",t.lineCap=this._legend.lineCap||"round",t.lineJoin=this._legend.lineJoin||"round",t.stroke())}rescale(){}center(){}}class s extends i{_drawSymbol(){var t=this._ctx=this._canvas.getContext("2d"),e=this._legend,i=e.weight||3,s=this._control.options.symbolWidth/2,l=this._control.options.symbolHeight/2,n=Math.min(s,l)-i,o=n;e.radius&&(o=Math.min(e.radius,n)),t.arc(s,l,o,0,2*Math.PI,!1)}}class l extends i{_drawSymbol(){var t=this._ctx=this._canvas.getContext("2d"),e=this._control.options.symbolWidth,i=this._control.options.symbolHeight/2;t.beginPath(),t.moveTo(0,i),t.lineTo(e,i)}}class n extends i{_drawSymbol(){var t=this._ctx=this._canvas.getContext("2d"),e=this._legend.weight||3,i=this._control.options.symbolWidth/2,s=this._control.options.symbolHeight/2,l=i-e,n=s-e;l==n&&(n/=2),t.rect(i-l,s-n,2*l,2*n)}}class o extends i{_drawSymbol(){var t=this._ctx=this._canvas.getContext("2d"),e=this._legend.weight||3,i=this._control.options.symbolWidth/2,s=this._control.options.symbolHeight/2,l=Math.min(i,s)-e,n=360/this._legend.sides;t.beginPath();for(var o=0;o<=this._legend.sides;o++){var h=i+l*Math.cos((n*o+(90-n/2))*Math.PI/180),a=s+l*Math.sin((n*o+(90-n/2))*Math.PI/180);0==o?t.moveTo(h,a):t.lineTo(h,a)}}}class h extends e{constructor(t,e,i){super(t,e,i),this._img=null,this._loadImages()}_loadImages(){var e=t.DomUtil.create("img",null,this._container);this._img=e,e.onload=()=>{this.rescale()},e.src=this._legend.url}rescale(){if(this._img){var t=this._control.options;if(this._img.width>t.symbolWidth||this._img.height>t.symbolHeight){var e=this._img.width,i=this._img.height,s=t.symbolWidth/e,l=t.symbolHeight/i,n=Math.min(s,l);this._img.width=e*n,this._img.height=i*n}this.center()}}center(){var t=this._container.offsetWidth/2,e=this._container.offsetHeight/2,i=t-parseInt(this._img.width)/2,s=e-parseInt(this._img.height)/2;this._img.style.left=i.toString()+"px",this._img.style.top=s.toString()+"px"}}t.Control.Legend=t.Control.extend({options:{position:"topleft",title:"Legend",legends:[],symbolWidth:24,symbolHeight:24,opacity:1,column:1,collapsed:!1},initialize:function(e){t.Util.setOptions(this,e),this._legendSymbols=[],this._buildContainer()},onAdd:function(t){return this._map=t,this._initLayout(),this._container},_buildContainer:function(){this._container=t.DomUtil.create("div","leaflet-legend leaflet-bar leaflet-control"),this._container.style.backgroundColor="rgba(255,255,255, "+this.options.opacity+")",this._contents=t.DomUtil.create("section","leaflet-legend-contents",this._container),this._link=t.DomUtil.create("a","leaflet-legend-toggle",this._container),this._link.title="Legend",this._link.href="#",t.DomUtil.create("h3","leaflet-legend-title",this._contents).innerText=this.options.title||"Legend";for(var e=this.options.legends.length,i=Math.ceil(e/this.options.column),s=this._contents,l=0;l<e;l++){l%i==0&&(s=t.DomUtil.create("div","leaflet-legend-column",this._contents));var n=this.options.legends[l];this._buildLegendItems(s,n)}},_buildLegendItems:function(e,i){var a=t.DomUtil.create("div","leaflet-legend-item",e);i.inactive&&t.DomUtil.addClass(a,"leaflet-legend-item-inactive");var r,d=t.DomUtil.create("i",null,a);if("image"===i.type)r=new h(this,d,i);else if("circle"===i.type)r=new s(this,d,i);else if("rectangle"===i.type)r=new n(this,d,i);else if("polygon"===i.type)r=new o(this,d,i);else{if("polyline"!==i.type)return void t.DomUtil.remove(a);r=new l(this,d,i)}this._legendSymbols.push(r),d.style.width=this.options.symbolWidth+"px",d.style.height=this.options.symbolHeight+"px",t.DomUtil.create("span",null,a).innerText=i.label,i.layers&&(t.DomUtil.addClass(a,"leaflet-legend-item-clickable"),t.DomEvent.on(a,"click",function(){this._toggleLegend.call(this,a,i.layers)},this))},_initLayout:function(){t.DomEvent.disableClickPropagation(this._container),t.DomEvent.disableScrollPropagation(this._container),this.options.collapsed?(this._map.on("click",this.collapse,this),t.DomEvent.on(this._container,{mouseenter:this.expand,mouseleave:this.collapse},this)):this.expand()},_toggleLegend:function(e,i){if(t.DomUtil.hasClass(e,"leaflet-legend-item-inactive"))if(t.DomUtil.removeClass(e,"leaflet-legend-item-inactive"),t.Util.isArray(i))for(var s=0,l=i.length;s<l;s++)this._map.addLayer(i[s]);else this._map.addLayer(i);else if(t.DomUtil.addClass(e,"leaflet-legend-item-inactive"),t.Util.isArray(i))for(s=0,l=i.length;s<l;s++)this._map.removeLayer(i[s]);else this._map.removeLayer(i)},expand:function(){for(var e of(this._link.style.display="none",t.DomUtil.addClass(this._container,"leaflet-legend-expanded"),this._legendSymbols))e.rescale();return this},collapse:function(){return this._link.style.display="block",t.DomUtil.removeClass(this._container,"leaflet-legend-expanded"),this},redraw:function(){t.DomUtil.empty(this._contents),this._buildLegendItems()}}),t.control.legend=t.control.Legend=function(e){return new t.Control.Legend(e)}},window);
+        </script>
+
+    </head>
+    <body>
+        <main>
+            <div id="map"></div>
+        </main>
+        
+        <script type="text/javascript">
+            var map = L.map('map',{
+                crs: L.CRS.Simple,
+                renderer: L.svg()
+            });
+            var bounds = [[0,0], [1000,1000]]; // todo:sort the maths on this
+            var image = L.imageOverlay('../map_exports/map_export.svg', bounds).addTo(map); // todo: create most recent file name dynamically
+            map.fitBounds(bounds);
+            L.control.Legend({
+                legends: [{
+                    label: 'Legend',
+                    type: 'image',
+                    url: '../map_exports/map_export_legend.svg'
+                }],
+            })            
+        </script>
+    </body>
+</html>
